@@ -518,3 +518,197 @@ Package
   └── Crate(s)
         └── Module(s)
               └── Functions, Structs, Enums, etc.
+
+
+* When we run cargo new new_project
+
+You created a **package**. Look at what's inside:
+```
+my_project/
+├── Cargo.toml    ← package definition
+└── src/
+    └── main.rs   ← binary crate root
+```
+
+**Cargo.toml** defines the package — name, version, dependencies.
+
+**`src/main.rs`** is the **crate root** — where Rust starts compiling.
+
+What is crate ?
+The smallest unit Rust Compiles. We can think of it as one complete program or one complete library.
+
+Two Types of crates : Binary Crate and Library Crate
+
+```
+Binary crate   →  has a main() function, compiles to an executable
+                  src/main.rs is the root
+                  this is what you've been building
+
+Library crate  →  no main(), compiles to code others can use
+                  src/lib.rs is the root
+                  example: serde, tokio, clap
+```
+
+One Package can have : 
+
+```
+ONE library crate   (src/lib.rs)
+MANY binary crates  (src/main.rs + src/bin/*.rs)
+```
+
+One package can have : 
+  -> As many binary crates as yopu want 
+  -> at most one library crate 
+  -> must have atleast one crate (binary or library)
+
+* Multiple Binary Crate 
+
+  ->We can do this using bin
+
+* Module lets us organize things into logical group (like folders in code)
+
+mod tasks {
+    // everthing related to tasks lives here
+}
+
+mod display {
+    // everything related to display lives here
+}
+
+
+### The module tree 
+
+mod tasks {
+    mod storage {
+        fn save() {}
+        fn load() {}
+    }
+
+    mod display {
+        fn show_all() {}
+        fn show_one() {}
+    }
+}
+
+This creates a Tree
+
+```
+crate
+ └── tasks
+      ├── storage
+      │     ├── save
+      │     └── load
+      └── display
+            ├── show_all
+            └── show_one
+```
+
+Just like a file system 
+
+```
+crate     =  /
+tasks     =  /tasks/
+storage   =  /tasks/storage/
+save      =  /tasks/storage/save
+```
+
+* Privacy - Default is Private 
+
+Everything is Private by default 
+Parent Modules cannot see inside child modules 
+Child Modules can see everything in parent Modules
+
+```
+mod tasks {
+    fn save() {}       // private — nobody outside can use this
+    pub fn load() {}   // public — anyone can use this
+}
+
+fn main() {
+    tasks::save();  // ❌ ERROR — save is private
+    tasks::load();  // ✅ fine — load is public
+}
+```
+
+* pub does not make everything inside public 
+
+mod tasks {
+  pub mod storage { // storage module is public 
+    fn save(){} // this is not [public] , still [private]
+  }
+} 
+
+fn main(){
+  tasks::storage::save(); // error
+}
+
+pub on a module just means "you can see this module exists." It doesn't expose what's inside. You need pub on each item too
+
+* super - Going Up To parent , goes one level up in the module tree 
+
+fn deliver_order(){
+
+}
+
+mod kitchen {
+  fn cook(){
+
+  }
+  fn finish_order(){
+    cook(); // sibling - same module
+    super::deliver_order(); // super - goes up to parent 
+  }
+}
+
+
+### Structs vs Enums - different pub behaviour 
+
+mod restaurant {
+    // struct — pub on struct does NOT make fields public
+    pub struct Breakfast {
+        pub toast: String,       // explicitly public
+        seasonal_fruit: String,  // still private
+    }
+
+    // enum — pub makes ALL variants public automatically
+    pub enum Drink {
+        Water,    // automatically public
+        Juice,    // automatically public
+        Soda,     // automatically public
+    }
+}
+
+why the difference ? 
+Struct  →  fields are independent — some public, some private makes sense
+Enum    →  variants are useless if private — what's the point of an
+           enum nobody can match on? so all variants go public together
+
+
+* as -> Rename on Import 
+
+use std::fmt::Result;
+use std::io::Result as IoResult;  // rename one
+
+* pub use -> Re-Exporting 
+
+* Modern Approach of Folder structure vs older
+
+```
+Modern:                     Older:
+src/                        src/
+├── main.rs                 ├── main.rs
+├── tasks.rs                └── tasks/
+└── input.rs                      ├── mod.rs
+                                  └── ...
+```
+
+### Client Server
+
+Browser                         Your Server
+───────                         ───────────
+1. Opens TCP connection    →    TcpListener accepts it
+2. Sends HTTP request      →    TcpStream — you read it
+3. Waits...                     You parse the request
+                                You build a response
+4. Receives response       ←    TcpStream — you write it
+5. Renders HTML                 Connection closes
