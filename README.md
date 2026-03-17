@@ -712,3 +712,228 @@ Browser                         Your Server
                                 You build a response
 4. Receives response       ←    TcpStream — you write it
 5. Renders HTML                 Connection closes
+
+
+### Ownership in HashMap
+
+When you insert owned values - HashMap takes ownership
+
+```
+let key  = String::from("Name");
+let value = String::from("0xfandom);
+
+map.insert(key,val);
+
+key and val are moved into map
+
+
+println!("{}" ,  key); //  ERROR — key was moved
+println!("{}" ,  value); // ❌ ERROR — val was moved
+
+For Reference they must outlive the hashMap
+
+map.insert(&key,&value); //borrow key and value , still valid
+println!("{}" , key) //valid
+
+```
+
+### Indexing [] vs get
+
+Rule of thumb : use [] when you’re sure index is valid (and prefer program crash if not). Use get when index may be user-provided or uncertain.
+
+
+### Borrowing rules + why adding while holding a reference fails
+
+Example that does not compile 
+
+```
+let mut v  = vec![1,2,3,4,5];
+let first = &v[0]; // immutable borrow of v 
+v.push(6) // needs mutable borrow of v
+println!("first {}" , first);
+```
+
+Compiler error: you cannot mutably borrow v while an immutable borrow (first) is still in scope.
+
+Why ? -> Vectors store elements contiguously. push might reallocate and move the buffer. If first still refers to the old memory, it becomes dangling. Rust prevents that at compile time.
+
+2 Fixex : Limit the scope of the immutable borrow
+          Or get the value by copying/cloning if type is Copy
+
+Key Rule : You cannot have simultaneous mutable and immutable borrows that overlap in scope.
+
+Capacity vs Length :-> v.len() = number of elements.
+                    -> v.capacity() = allocated space (how many elements fit before reallocating)
+                    -> Vec::with_capacity(n) avoids reallocations if you know size.
+
+ReAllocation Behaviour : When the vector is full and you push, Rust allocates a larger buffer (often doubling capacity), copies data to new buffer, drops old buffer.
+Any references (like &v[0]) taken before reallocation become invalid — hence the borrowing rules.
+
+Common Method of Vector : push / pop (remove last) / insert (at index) / remove (index) , clear / reserver / shrink_to_fit
+pop() returns Option<T> — Some(value) if existed, None if empty.
+
+Performance : Indexing O(1). push amortized O(1). insert/remove at middle O(n)
+
+
+### UTF-8 → Why everything gets complicated
+
+* Example 1 (English)
+"Hello"
+
+Each char = 1 byte → simple
+
+* Example 2 (Russian)
+"Здравствуйте"
+
+Each character = 2 bytes
+
+
+### DashMap
+
+DashMap is a concurrent (thread-safe) HashMap for Rust.
+
+In simple terms : DashMap : HashMap that multiple threads can use safely at the same time
+
+
+Problems with Normal HashMap
+
+std::collections::HashMap not safe thread by default
+
+What we are trying to do ? We want Multiple Threads access same hashMap and modify it 
+
+Why this does not work ? ->
+```
+use std::collections::HashMap;
+use std::sync::Arc;
+
+let map = Arc::new(HashMap::new());
+```
+Arc : shared ownership
+but hashmap is not thread safe , data race can occer which can lead to curroption of data 
+For this the solution is Mutex : what mutex does is "only one thread is allwed at the time"
+
+Thread 1: lock 🔒 → working → unlock 🔓
+Thread 2:        ⛔ waiting... → then gets lock
+
+This is the problem : only one thread can access at a time.
+What we want ? Multiple thread -> read/write -> same map -> fast
+
+* What dashMap does differently
+
+Why to lock the whole map ?  lOCK ONLY Parts of it 
+
+Instead of big hashMap, DashMap created multiple small hashmaps called shards
+```
+DashMap
+ ├── shard 0 → HashMap
+ ├── shard 1 → HashMap
+ ├── shard 2 → HashMap
+ └── shard 3 → HashMap
+ ```
+
+How a key is stored here ?
+
+map.insert("apple", 10);
+"apple" → hash → decide shard → insert into that shard
+
+
+### Panic 
+panic! = immediately stop the program because something unrecoverable happened
+
+```
+fn main() {
+    panic!("crash and burn");
+}
+
+thread 'main' panicked at src/main.rs:2:5:
+crash and burn
+```
+
+* Two Ways Panic happen 
+
+1. Either we explicitly call it 
+2. Rust Triggers it automatically (eg : index out of bounds)
+
+* What happened during Panic ? 
+Mode 1  : Stack Unwinding
+panic → go back through function calls → clean everything
+
+main()
+  ↓
+foo()
+  ↓
+bar() → panic here
+
+Unwinding Happens 
+bar() → cleanup
+foo() → cleanup
+main() → cleanup
+
+Mode 2 : Abort
+[profile.release]
+panic = 'abort'
+panic → immediately kill program
+NO cleanup
+
+* Backtrace
+
+cmd : RUST_BACKTRACE=1 cargo run
+
+It is basically , list of function calls that led to panic 
+
+
+### Recoverable vs Unrecoverable 
+
+ panic! : crashes program 
+ Result : handle error
+
+ What is Result ? 
+ 
+ enum Result<T, E> {
+    Ok(T),
+    Err(E),
+  }
+
+  Eg : let file  = File::open("hello.txt");
+  Result<File, io::Error>
+
+  We handle result with match
+  let file = match File::open("hello.txt") {
+    Ok(f) => f,
+    Err(e) => panic!("error: {e:?}"),
+};
+
+.expect("something") : this is also one way  
+
+### ? operator 
+
+let file = File::open("hello.txt")?;
+
+Equivalent to
+ let file = match File::open("hello.txt") {
+    Ok(f) => f,
+    Err(e) => return Err(e),
+};
+
+what ? does 
+If Ok → unwrap value
+If Err → return error immediately
+
+we can only use ? if function return result or option 
+
+When something fails , should the program fails or recover
+
+The rule is  : Default : Use Result , panic! : only for unrecoverable bugs 
+
+Result gives control to the caller , if we put panic instead than caller have no choices , the program crashes
+
+### Conditions for Panic 
+
+
+1. Unexpected Situation 
+2. Cannot recover logically 
+3. Continuing is dangerous 
+
+* Library code rule 
+If you are writing reusable code , you dont know how caller wants to handle error , there we prefer results over panic 
+
