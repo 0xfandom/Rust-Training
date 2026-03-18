@@ -32,6 +32,18 @@
 
 // funtions without self are associatedf funtions - no self parameter  
 
+
+// self represents the instance of struct (or type) on which
+// the method is being called
+
+// | Language | Keyword |
+// | -------- | ------- |
+// | Java     | `this`  |
+// | Python   | `self`  |
+// | Rust     | `self`  |
+
+
+
 struct Box {
     value: i32,
 }
