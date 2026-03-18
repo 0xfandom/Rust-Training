@@ -937,3 +937,202 @@ Result gives control to the caller , if we put panic instead than caller have no
 * Library code rule 
 If you are writing reusable code , you dont know how caller wants to handle error , there we prefer results over panic 
 
+
+### Why Generics Exist 
+
+To follow dry principle and remove copy pasting of same logic 
+To Solve the problem of code duplication 
+
+Solution : Generics = Write Once , work for many types 
+
+T = Placeholder for type 
+like fn largest<T>(list : &<T>) -> &<T> {...}
+
+Basically Functions become template
+
+### Trait 
+
+A trait in Rust is a way to define shared behavior that different types can implement.
+
+Trait is basically : what a type can do
+
+Eg : In terms of real world analogy 
+trait  : Drivable 
+Any type can implement it such as car,bike,truck 
+but tree nope 
+
+Built in Trait which we have already use
+
+| Trait        | Purpose               |
+| ------------ | --------------------- |
+| `PartialOrd` | comparison (`>`, `<`) |
+| `PartialEq`  | equality (`==`)       |
+| `Debug`      | print with `{:?}`     |
+| `Display`    | print with `{}`       |
+| `Clone`      | duplicate value       |
+| `Copy`       | implicit copy         |
+
+
+So trait basically says : must behave like this 
+
+
+A trait defines a set of methods (behavior) that a type must implement to be used in certain contexts.
+
+Generics
+* Core Rule : One generic parameter = one single concrete type
+Fx : Multiple Generic Types
+
+struct Point<T,U> {
+  x : T, 
+  y : U,
+}
+
+
+Rust Allows : 
+Generic methods → for all types
+Specialized methods → for specific types
+
+### Different Generics in Methods 
+
+```
+impl<X1, Y1> Point<X1, Y1> {
+    fn mixup<X2, Y2>(self, other: Point<X2, Y2>) 
+        -> Point<X1, Y2> 
+}
+
+```
+
+Breaking this 
+
+Struct : Point<X1,Y1>
+Method Takes : Point<X2,Y2>
+
+Returns : Point<X1,Y2>
+
+what happens : x:self.x , y:other.y
+
+Example :
+p1 = Point { x: 5, y: 10.4 }        // i32, f64
+p2 = Point { x: "Hello", y: 'c' }   // &str, char
+
+Result : p3 = p1.mixup(p2); becomes Point<i32, char>
+
+Struct generics != method generics 
+
+
+### Monomorphization
+
+Are generics slow ? No 
+Why ? Because Rust uses Monomorphisation
+What compiler does is , it replace the generic code with the real concrete code 
+
+Example : 
+let a = Some(5);     // Option<i32>
+let b = Some(5.0);   // Option<f64>
+
+for this compiler generates 
+
+enum Option_i32 {
+    Some(i32),
+    None,
+}
+
+enum Option_f64 {
+    Some(f64),
+    None,
+}
+
+So basically Instead of one generic version at runtime , multiple concrete versions at compile time
+
+So what we can say is : 
+Generics = Template 
+And At compile time 
+Template = expanded into real code 
+
+### Trait and Shared Behaviour 
+
+A trait defines behaviour that multiple types can share 
+
+Simple Terms : Trait is "set of abilities"
+
+Defining a trait 
+
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+
+* Trait Scope 
+
+use aggregator::{SocialPost, Summary};
+
+Why import Summary ? coz 
+Methods from traits are only available if trait is in scope
+
+* Orphan Rule 
+
+You can implement a trait only if:
+- trait is yours OR
+- type is yours
+
+
+impl Summary for Vec<T>   // Summary is yours 
+impl Display for MyType   // MyType is yours 
+
+It is used to avoid conflict between crates
+
+
+### Lifetimes In Rust
+
+Lifetimes ensures reference becomes valid untill they are getting used !!!
+
+Core Problem 
+
+Dangling Reference (It should not be there)
+
+```
+fn main() {
+    let r;
+
+    {
+        let x = 5;
+        r = &x;
+    }
+
+    println!("{r}");
+}
+```
+So here the thing is X : inner scope 
+and r is in outer scope 
+so here x gets destroyed when it goes out of scope and r wants to print x , thats the problem 
+
+x:   [ alive ] ---- DEAD
+r:   [ -------- still alive -------- ]
+
+here r pointing to garbage memory
+
+Rust stops this at compile time , it does it via borrow checker which checks for how much time the reference is alive 
+
+* Concept of Lifetime
+
+Rule : Reference Lifetime <= data lifetime
+
+r → lifetime 'a
+x → lifetime 'b
+
+so if 'a > 'b this fail !
+'b > 'a pass
+
+### Function Problem 
+
+fn logest(x : &str , y : &str) -> &str
+
+Now here rust confusion is : the return value is reference of which x or y
+
+The solution is Lifetime Annotation 
+
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str
+
+Return Value Lifetime = common of x and y 
+
+here a' is the smallest lifetime of x and y 
+
