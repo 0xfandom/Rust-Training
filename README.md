@@ -1136,3 +1136,138 @@ Return Value Lifetime = common of x and y
 
 here a' is the smallest lifetime of x and y 
 
+
+
+### Single Threaded vs Multi Threaded 
+
+Single Threaded : One task at a time 
+Multi Threaded : All Task run at the same time 
+
+Rust thread safety : Ownership rules 
+
+Send Trait : Safe to move to another thread 
+Sync Trait : Safe to share ref across threads 
+
+Sharing data between Threads 
+Arc<T> : Shared Ownership
+Mutex<T> : Exclusive Lock
+Channel : Message Passing 
+RwLock<T> : Many Readers/One writer 
+
+Async / await (tokio) = concurrency without OS threads
+
+
+* By default every Rust programs runs on one thread. Tasks happen one after another
+```
+fn main() {
+    let result_a = do_task_a();   // waits here until done
+    let result_b = do_task_b();   // only starts after A
+    let result_c = do_task_c();   // only starts after B
+}
+```
+Bad for: anything that waits (network, disk, timers) — one slow task blocks everything.
+
+Multi Threaded with std::thread
+
+* Rust's standard library lets you spawn real OS threads. Each thread gets its own stack and runs truly in parallel on different CPU cores.
+```
+use std::thread;
+
+fn main() {
+    let handle1 = thread::spawn(|| {
+        println!("Task A running on thread 1");
+    });
+
+    let handle2 = thread::spawn(|| {
+        println!("Task B running on thread 2");
+    });
+
+    // Wait for both threads to finish
+    handle1.join().unwrap();
+    handle2.join().unwrap();
+}
+```
+
+Big Problem Sharing data
+
+-> This is where Rust is completely different from other languages. You cannot just share data between threads freely — the compiler will reject it.
+```
+// THIS FAILS TO COMPILE
+let data = vec![1, 2, 3];
+
+thread::spawn(|| {
+    println!("{:?}", data); // ERROR: data might not live long enough
+});
+```
+
+Arc<T> : Shared Ownership 
+Arc stands for Atomic Reference Counter. It lets multiple threads own the same data safely.
+
+Mutex<T> — Exclusive Access
+Arc alone only lets you read. If you want to mutate shared data, wrap it in a Mutex. Only one thread can hold the lock at a time.
+
+Channels — Message Passing
+Instead of sharing memory, threads communicate by sending messages. This is Rust's preferred style — "do not communicate by sharing memory, share memory by communicating."
+
+* Send and Sync — Rust's Thread Safety Guarantees
+
+-> Send — a type is safe to move to another thread. Almost everything is Send. Exception: Rc<T> (use Arc<T> instead).
+
+-> Sync — a type is safe to share a reference to across threads. Mutex<T> is Sync, raw Cell<T> is not.
+
+* std::thread creates real OS threads — heavy, each one uses ~2MB of stack memory. For a web server handling 10,000 requests, you cannot spawn 10,000 threads.
+
+Tokio's Async model solves this with a thread pool + a task scheduler 
+We write async fn and await, and tokio maps thousands of lightweight tasks onto a small fixed set of OS threads.
+
+
+### Alloy In Rust 
+
+Alloy is a complete rewrite of ethers-rs — the old Rust Ethereum library — and builds on years of experience shipping tooling for the Rust Ethereum ecosystem. Paradigm Think of it as the ethers.js or web3.py of the Rust world, but faster and more modern.
+
+Revm uses it as its core dependency 
+
+alloy-provider : Connect to ethereum nodes , sends txn etc.
+
+
+### The sol! macro : Solidity Inside Rust
+
+Alloy generates Rust types that encode Solidity calls directly, removing the need for runtime JSON ABI parsing and avoiding encoding bugs. Static ABI encoding is up to 10x faster.
+
+
+### Box<T>
+
+Box<T> is the simplest smart pointer in Rust. It puts data on the heap instead of the stack, and gives you a single-owner pointer to it. When the Box goes out of scope, Rust automatically frees the heap memory — no free(), no garbage collector.
+
+* Box exists to solve three specific problems 
+
+1. Reason 1 : Recursive Types
+This is the most common reason. Imagine building a linked list:
+```
+// THIS FAILS — compiler can't calculate the size
+enum List {
+    Cons(i32, List),  // List contains a List contains a List... infinite size!
+    Nil,
+}
+```
+Rust needs to know the size of every type at compile time. A recursive type like this has infinite size — the compiler refuses it.
+
+Box breaks the cycle because a pointer always has a known, fixed size (8 bytes on 64-bit):
+
+```
+// THIS WORKS — Box has a known size (pointer = 8 bytes)
+enum List {
+    Cons(i32, Box<List>),  // i32 + pointer = known size
+    Nil,
+}
+
+let list = List::Cons(1,
+    Box::new(List::Cons(2,
+        Box::new(List::Cons(3,
+            Box::new(List::Nil)
+        ))
+    ))
+);
+```
+
+
