@@ -59,6 +59,13 @@ mod tests {
     }
 
     #[test]
+    fn repeated_negative_values() {
+        let values = [-5, -5, -2, 0];
+        let index = binary_search(&values, -5).expect("negative value should be found");
+        assert_eq!(values[index], -5);
+    }
+
+    #[test]
     fn extreme_values() {
         assert_eq!(binary_search(&[i32::MIN, 0, i32::MAX], i32::MAX), Some(2));
     }
