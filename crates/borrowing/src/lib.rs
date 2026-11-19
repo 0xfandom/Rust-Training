@@ -22,6 +22,11 @@ mod tests {
     }
 
     #[test]
+    fn byte_count_uses_utf8_bytes() {
+        assert_eq!(byte_count("é"), 2);
+    }
+
+    #[test]
     fn mutable_borrow_updates_in_place() {
         let mut value = String::from("hello");
         append_suffix(&mut value, " rust");
