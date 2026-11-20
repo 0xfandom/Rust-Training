@@ -1,20 +1,21 @@
 # Algorithm inventory
 
-Version: 1. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
+Version: 2. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
 
 | Area | Algorithm / variant | Implementation | Issue | PR | Status |
 | --- | --- | --- | --- | --- | --- |
 | Searching | Binary search (sorted integer slice) | crates/binary-search/src/lib.rs | #3 | #5 | merged |
 | Sorting | Merge sort (stable integer slice) | crates/merge-sort/src/lib.rs | #6 | #7 | merged |
 | Graph traversal | Breadth-first search (adjacency lists) | crates/graph-bfs/src/lib.rs | #9 | #10 | merged |
-| Disjoint sets | Union-find (path compression, union by size) | crates/disjoint-set/src/lib.rs | #11 | #12 | in review |
+| Disjoint sets | Union-find (path compression, union by size) | crates/disjoint-set/src/lib.rs | #11 | #12 | merged |
+| Graph traversal | Iterative depth-first search (adjacency lists) | crates/graph-dfs/src/lib.rs | #13 | #14 | in review |
 
 ## Prioritized roadmap
 
 Check inventory, open issues, branches, and PRs before selecting a candidate.
 
 1. Core data structures: stack, queue, heap, hash table, linked list, binary search tree, trie.
-2. Graph algorithms: DFS, topological sorting, Dijkstra, Bellman-Ford, minimum spanning trees, strongly connected components.
+2. Graph algorithms: topological sorting, Dijkstra, Bellman-Ford, minimum spanning trees, strongly connected components.
 3. Sorting/searching: insertion sort, quicksort, heap sort, distinct lower/upper bound contracts.
 4. Arrays/strings: sliding window, two pointers, prefix sums, KMP, rolling hash.
 5. Dynamic programming: knapsack, longest increasing subsequence, edit distance, longest common subsequence.
