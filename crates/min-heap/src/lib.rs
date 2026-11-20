@@ -45,7 +45,7 @@ impl MinHeap {
             return Some(result);
         }
         let smallest = std::mem::replace(&mut self.values[0], result);
-        let mut index = 0;
+        let mut index: usize = 0;
         let len = self.values.len();
         loop {
             let Some(left) = index.checked_mul(2).and_then(|n| n.checked_add(1)) else {
