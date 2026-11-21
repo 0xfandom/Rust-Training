@@ -1,6 +1,6 @@
 # Algorithm inventory
 
-Version: 7. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
+Version: 8. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
 
 | Area | Algorithm / variant | Implementation | Issue | PR | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -13,7 +13,8 @@ Version: 7. Update this file when an algorithm is proposed, merged, or retired. 
 | Graph ordering | Kahn topological sort (directed adjacency lists) | crates/graph-topological-sort/src/lib.rs | #17 | #18 | merged |
 | Number theory | Euclidean GCD (iterative, u64) | crates/euclidean-gcd/src/lib.rs | #19 | #20 | merged |
 | Data structures | Generic LIFO stack (Vec-backed) | crates/stack/src/lib.rs | #21 | #22 | merged |
-| Data structures | Generic FIFO queue (VecDeque-backed) | crates/queue/src/lib.rs | #23 | #24 | in review |
+| Data structures | Generic FIFO queue (VecDeque-backed) | crates/queue/src/lib.rs | #23 | #24 | merged |
+| Data structures | Singly linked list (owned boxed nodes, head operations) | crates/singly-linked-list/src/lib.rs | #25 | #26 | in review |
 
 ## Prioritized roadmap
 
