@@ -1,6 +1,6 @@
 # Algorithm inventory
 
-Version: 6. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
+Version: 7. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
 
 | Area | Algorithm / variant | Implementation | Issue | PR | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -12,13 +12,14 @@ Version: 6. Update this file when an algorithm is proposed, merged, or retired. 
 | Priority queue | Binary min-heap (integer priorities) | crates/min-heap/src/lib.rs | #15 | #16 | merged |
 | Graph ordering | Kahn topological sort (directed adjacency lists) | crates/graph-topological-sort/src/lib.rs | #17 | #18 | merged |
 | Number theory | Euclidean GCD (iterative, u64) | crates/euclidean-gcd/src/lib.rs | #19 | #20 | merged |
-| Data structures | Generic LIFO stack (Vec-backed) | crates/stack/src/lib.rs | #21 | #22 | in review |
+| Data structures | Generic LIFO stack (Vec-backed) | crates/stack/src/lib.rs | #21 | #22 | merged |
+| Data structures | Generic FIFO queue (VecDeque-backed) | crates/queue/src/lib.rs | #23 | #24 | in review |
 
 ## Prioritized roadmap
 
 Check inventory, open issues, branches, and PRs before selecting a candidate.
 
-1. Core data structures: queue, hash table, linked list, binary search tree, trie.
+1. Core data structures: hash table, linked list, binary search tree, trie.
 2. Graph algorithms: Dijkstra, Bellman-Ford, minimum spanning trees, strongly connected components.
 3. Sorting/searching: insertion sort, quicksort, heap sort, distinct lower/upper bound contracts.
 4. Arrays/strings: sliding window, two pointers, prefix sums, KMP, rolling hash.
