@@ -1,6 +1,6 @@
 # Algorithm inventory
 
-Version: 10. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
+Version: 11. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
 
 | Area | Algorithm / variant | Implementation | Issue | PR | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -16,7 +16,8 @@ Version: 10. Update this file when an algorithm is proposed, merged, or retired.
 | Data structures | Generic FIFO queue (VecDeque-backed) | crates/queue/src/lib.rs | #23 | #24 | merged |
 | Data structures | Singly linked list (owned boxed nodes, head operations) | crates/singly-linked-list/src/lib.rs | #25 | #26 | merged |
 | Sorting | Stable insertion sort (in-place integer slice) | crates/insertion-sort/src/lib.rs | #27 | #28 | merged |
-| Strings / data structures | Lowercase ASCII prefix trie (exact and prefix lookup) | crates/trie/src/lib.rs | #29 | #30 | in review |
+| Strings / data structures | Lowercase ASCII prefix trie (exact and prefix lookup) | crates/trie/src/lib.rs | #29 | #30 | merged |
+| Arrays | Prefix sums (i64 input, i128 half-open range queries) | crates/prefix-sums/src/lib.rs | #31 | #32 | in review |
 
 ## Prioritized roadmap
 
@@ -25,7 +26,7 @@ Check inventory, open issues, branches, and PRs before selecting a candidate.
 1. Core data structures: hash table, binary search tree.
 2. Graph algorithms: Dijkstra, Bellman-Ford, minimum spanning trees, strongly connected components.
 3. Sorting/searching: quicksort, heap sort, distinct lower/upper bound contracts.
-4. Arrays/strings: sliding window, two pointers, prefix sums, KMP, rolling hash.
+4. Arrays/strings: sliding window, two pointers, KMP, rolling hash.
 5. Dynamic programming: knapsack, longest increasing subsequence, edit distance, longest common subsequence.
 6. Greedy/backtracking: interval scheduling, Huffman coding, subsets, permutations, N-queens.
 7. Number theory/bit manipulation: modular exponentiation, sieve, bitset operations.
