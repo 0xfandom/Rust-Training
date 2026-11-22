@@ -1,6 +1,6 @@
 # Algorithm inventory
 
-Version: 13. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
+Version: 14. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
 
 | Area | Algorithm / variant | Implementation | Issue | PR | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -20,7 +20,9 @@ Version: 13. Update this file when an algorithm is proposed, merged, or retired.
 | Arrays | Prefix sums (i64 input, i128 half-open range queries) | crates/prefix-sums/src/lib.rs | #31 | #32 | merged |
 
 | Number theory | Modular exponentiation (binary exponentiation, u64) | crates/modular-exponentiation/src/lib.rs | #33 | #34 | merged |
-| Number theory | Sieve of Eratosthenes (inclusive prime generation) | crates/sieve-of-eratosthenes/src/lib.rs | #35 | #36 | in review |
+| Number theory | Sieve of Eratosthenes (inclusive prime generation) | crates/sieve-of-eratosthenes/src/lib.rs | #35 | #36 | merged |
+
+| Arrays | Sliding window maximum (monotonic deque, i64) | crates/sliding-window-maximum/src/lib.rs | #37 | #38 | in review |
 
 ## Prioritized roadmap
 
