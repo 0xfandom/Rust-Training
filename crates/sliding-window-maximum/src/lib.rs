@@ -28,10 +28,7 @@ pub fn sliding_window_max(values: &[i64], window: usize) -> Vec<i64> {
             candidates.pop_front();
         }
 
-        while candidates
-            .back()
-            .is_some_and(|&back| values[back] <= value)
-        {
+        while candidates.back().is_some_and(|&back| values[back] <= value) {
             candidates.pop_back();
         }
 
