@@ -20,7 +20,7 @@ Version: 13. Update this file when an algorithm is proposed, merged, or retired.
 | Arrays | Prefix sums (i64 input, i128 half-open range queries) | crates/prefix-sums/src/lib.rs | #31 | #32 | merged |
 
 | Number theory | Modular exponentiation (binary exponentiation, u64) | crates/modular-exponentiation/src/lib.rs | #33 | #34 | merged |
-| Number theory | Sieve of Eratosthenes (inclusive prime generation) | crates/sieve-of-eratosthenes/src/lib.rs | #35 | pending | in review |
+| Number theory | Sieve of Eratosthenes (inclusive prime generation) | crates/sieve-of-eratosthenes/src/lib.rs | #35 | #36 | in review |
 
 ## Prioritized roadmap
 
