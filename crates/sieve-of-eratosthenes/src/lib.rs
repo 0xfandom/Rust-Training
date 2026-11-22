@@ -53,7 +53,10 @@ mod tests {
     #[test]
     fn excludes_composites_and_preserves_order() {
         assert_eq!(primes_up_to(10), vec![2, 3, 5, 7]);
-        assert_eq!(primes_up_to(30), vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29]);
+        assert_eq!(
+            primes_up_to(30),
+            vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+        );
     }
 
     #[test]
