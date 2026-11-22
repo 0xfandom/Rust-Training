@@ -1,6 +1,6 @@
 # Algorithm inventory
 
-Version: 12. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
+Version: 13. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
 
 | Area | Algorithm / variant | Implementation | Issue | PR | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -19,7 +19,8 @@ Version: 12. Update this file when an algorithm is proposed, merged, or retired.
 | Strings / data structures | Lowercase ASCII prefix trie (exact and prefix lookup) | crates/trie/src/lib.rs | #29 | #30 | merged |
 | Arrays | Prefix sums (i64 input, i128 half-open range queries) | crates/prefix-sums/src/lib.rs | #31 | #32 | merged |
 
-| Number theory | Modular exponentiation (binary exponentiation, u64) | crates/modular-exponentiation/src/lib.rs | #33 | #34 | in review |
+| Number theory | Modular exponentiation (binary exponentiation, u64) | crates/modular-exponentiation/src/lib.rs | #33 | #34 | merged |
+| Number theory | Sieve of Eratosthenes (inclusive prime generation) | crates/sieve-of-eratosthenes/src/lib.rs | #35 | pending | in review |
 
 ## Prioritized roadmap
 
@@ -31,7 +32,7 @@ Check inventory, open issues, branches, and PRs before selecting a candidate.
 4. Arrays/strings: sliding window, two pointers, KMP, rolling hash.
 5. Dynamic programming: knapsack, longest increasing subsequence, edit distance, longest common subsequence.
 6. Greedy/backtracking: interval scheduling, Huffman coding, subsets, permutations, N-queens.
-7. Number theory/bit manipulation: modular exponentiation, sieve, bitset operations.
+7. Number theory/bit manipulation: prime factorization, segmented sieve, bitset operations.
 8. Geometry: orientation, segment intersection, convex hull.
 9. Concurrency/performance: bounded work queue, parallel reductions, benchmarks and allocation analysis.
 
