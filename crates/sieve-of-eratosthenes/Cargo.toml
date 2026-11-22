@@ -1,0 +1,5 @@
+[package]
+name = "rust-training-sieve-of-eratosthenes"
+version = "0.1.0"
+edition = "2021"
+publish = false
