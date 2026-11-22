@@ -1,6 +1,6 @@
 # Algorithm inventory
 
-Version: 11. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
+Version: 12. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
 
 | Area | Algorithm / variant | Implementation | Issue | PR | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -17,7 +17,9 @@ Version: 11. Update this file when an algorithm is proposed, merged, or retired.
 | Data structures | Singly linked list (owned boxed nodes, head operations) | crates/singly-linked-list/src/lib.rs | #25 | #26 | merged |
 | Sorting | Stable insertion sort (in-place integer slice) | crates/insertion-sort/src/lib.rs | #27 | #28 | merged |
 | Strings / data structures | Lowercase ASCII prefix trie (exact and prefix lookup) | crates/trie/src/lib.rs | #29 | #30 | merged |
-| Arrays | Prefix sums (i64 input, i128 half-open range queries) | crates/prefix-sums/src/lib.rs | #31 | #32 | in review |
+| Arrays | Prefix sums (i64 input, i128 half-open range queries) | crates/prefix-sums/src/lib.rs | #31 | #32 | merged |
+
+| Number theory | Modular exponentiation (binary exponentiation, u64) | crates/modular-exponentiation/src/lib.rs | #33 | #34 | in review |
 
 ## Prioritized roadmap
 
