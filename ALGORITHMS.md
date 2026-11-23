@@ -24,7 +24,7 @@ Version: 16. Update this file when an algorithm is proposed, merged, or retired.
 
 | Arrays | Sliding window maximum (monotonic deque, i64) | crates/sliding-window-maximum/src/lib.rs | #37 | #38 | merged |
 | Greedy | Interval scheduling (earliest finish, half-open i64) | crates/interval-scheduling/src/lib.rs | #39 | #40 | merged |
-| Shortest paths | Dijkstra (nonnegative u64 edge weights) | crates/dijkstra/src/lib.rs | #41 | pending | in review |
+| Shortest paths | Dijkstra (nonnegative u64 edge weights) | crates/dijkstra/src/lib.rs | #41 | #42 | in review |
 
 ## Prioritized roadmap
 
