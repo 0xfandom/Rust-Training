@@ -66,12 +66,7 @@ mod tests {
     #[test]
     fn handles_negative_and_extreme_coordinates() {
         assert_eq!(
-            max_non_overlapping(&[
-                (i64::MIN, -5),
-                (-5, 0),
-                (0, i64::MAX),
-                (i64::MIN, i64::MAX),
-            ]),
+            max_non_overlapping(&[(i64::MIN, -5), (-5, 0), (0, i64::MAX), (i64::MIN, i64::MAX),]),
             Some(vec![0, 1, 2])
         );
     }
