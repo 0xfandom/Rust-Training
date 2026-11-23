@@ -51,8 +51,16 @@ mod tests {
 
     #[test]
     fn chooses_cheaper_indirect_routes() {
-        let graph = vec![vec![(1, 10), (2, 2)], vec![(3, 1)], vec![(1, 3), (3, 9)], vec![]];
-        assert_eq!(dijkstra(&graph, 0), Some(vec![Some(0), Some(5), Some(2), Some(6)]));
+        let graph = vec![
+            vec![(1, 10), (2, 2)],
+            vec![(3, 1)],
+            vec![(1, 3), (3, 9)],
+            vec![],
+        ];
+        assert_eq!(
+            dijkstra(&graph, 0),
+            Some(vec![Some(0), Some(5), Some(2), Some(6)])
+        );
     }
 
     #[test]
@@ -64,7 +72,10 @@ mod tests {
     #[test]
     fn leaves_disconnected_vertices_unreachable() {
         let graph = vec![vec![(1, 2)], vec![], vec![(3, 1)], vec![]];
-        assert_eq!(dijkstra(&graph, 0), Some(vec![Some(0), Some(2), None, None]));
+        assert_eq!(
+            dijkstra(&graph, 0),
+            Some(vec![Some(0), Some(2), None, None])
+        );
     }
 
     #[test]
@@ -78,13 +89,19 @@ mod tests {
     #[test]
     fn preserves_maximum_representable_distance() {
         let graph = vec![vec![(1, u64::MAX), (2, 1)], vec![(2, 1)], vec![]];
-        assert_eq!(dijkstra(&graph, 0), Some(vec![Some(0), Some(u64::MAX), Some(1)]));
+        assert_eq!(
+            dijkstra(&graph, 0),
+            Some(vec![Some(0), Some(u64::MAX), Some(1)])
+        );
     }
 
     #[test]
     fn skips_paths_that_overflow() {
         let graph = vec![vec![(1, u64::MAX)], vec![(2, 1)], vec![]];
-        assert_eq!(dijkstra(&graph, 0), Some(vec![Some(0), Some(u64::MAX), None]));
+        assert_eq!(
+            dijkstra(&graph, 0),
+            Some(vec![Some(0), Some(u64::MAX), None])
+        );
     }
 
     #[test]
