@@ -1,6 +1,6 @@
 # Algorithm inventory
 
-Version: 14. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
+Version: 15. Update this file when an algorithm is proposed, merged, or retired. Compare behavior and aliases before opening an issue. Rust language exercises are tracked separately from algorithms.
 
 | Area | Algorithm / variant | Implementation | Issue | PR | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -22,7 +22,8 @@ Version: 14. Update this file when an algorithm is proposed, merged, or retired.
 | Number theory | Modular exponentiation (binary exponentiation, u64) | crates/modular-exponentiation/src/lib.rs | #33 | #34 | merged |
 | Number theory | Sieve of Eratosthenes (inclusive prime generation) | crates/sieve-of-eratosthenes/src/lib.rs | #35 | #36 | merged |
 
-| Arrays | Sliding window maximum (monotonic deque, i64) | crates/sliding-window-maximum/src/lib.rs | #37 | #38 | in review |
+| Arrays | Sliding window maximum (monotonic deque, i64) | crates/sliding-window-maximum/src/lib.rs | #37 | #38 | merged |
+| Greedy | Interval scheduling (earliest finish, half-open i64) | crates/interval-scheduling/src/lib.rs | #39 | #40 | in review |
 
 ## Prioritized roadmap
 
