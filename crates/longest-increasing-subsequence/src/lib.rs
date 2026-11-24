@@ -72,7 +72,7 @@ mod tests {
         for len in 0..=6 {
             let cases = 3_usize.pow(len);
             for mut encoded in 0..cases {
-                let mut values = Vec::with_capacity(len);
+                let mut values = Vec::with_capacity(len as usize);
                 for _ in 0..len {
                     values.push((encoded % 3) as i64 - 1);
                     encoded /= 3;
